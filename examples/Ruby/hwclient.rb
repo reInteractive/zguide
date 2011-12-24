@@ -10,8 +10,11 @@ requester.connect("tcp://localhost:5555")
 
 0.upto(9) do |request_nbr|
   puts "Sending request #{request_nbr}..."
-  requester.send_string "Hello"
+  requester.send_string("Hello")
 
-  reply = requester.recv_string ''
-  puts "Received reply #{request_nbr}: [#{reply}]"
+  # Initialize a string object and receive the message into it
+  message = ''
+  requester.recv_string(message)
+
+  puts "Received reply #{request_nbr}: [#{message}]"
 end

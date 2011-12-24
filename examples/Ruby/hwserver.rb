@@ -14,14 +14,16 @@ socket.bind("tcp://*:5555")
 
 while true do
   # Wait for next request from client
-  request = socket.recv_string ('')
 
-  puts "Received request. Data: #{request.inspect}"
+  # Initialize a string object and receive the message into it
+  message = ''
+  request = socket.recv_string(message)
+
+  puts "Received request. Data: #{message}"
 
   # Do some 'work'
   sleep 1
 
   # Send reply back to client
   socket.send_string("world")
-
 end
