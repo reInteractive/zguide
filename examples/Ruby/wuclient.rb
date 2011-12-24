@@ -17,17 +17,18 @@ subscriber = context.socket(ZMQ::SUB)
 subscriber.connect("tcp://localhost:5556")
 
 # Subscribe to zipcode, default is NYC, 10001
-filter = ARGV.size > 0 ? ARGV[0] : "10001 "
+filter = ARGV.size > 0 ? ARGV[0] : "10001"
 subscriber.setsockopt(ZMQ::SUBSCRIBE, filter)
 
 # Process 100 updates
 total_temp = 0
 1.upto(COUNT) do |update_nbr|
   s = ''
-  subscriber.recv_string(s)#.split.map(&:to_i)
+  subscriber.recv_string(s)
   
   zipcode, temperature, relhumidity = s.split.map(&:to_i)
   total_temp += temperature
+  puts "Got temperature #{temperature} and humidity #{relhumidity} for zipcode #{zipcode}"
 end
 
 puts "Average temperature for zipcode '#{filter}' was #{total_temp / COUNT}F"
